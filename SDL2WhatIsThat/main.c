@@ -14,6 +14,23 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
     if(SDL_Init(SDL_INIT_EVERYTHING)>=0)//Si il n'y a pas d'erreur alors la SDL fonctionne.
     {
         printf("La SDL est initialisee !\n");
+
+        printf("Creation de la fenetre.\n");
+        pWindow=SDL_CreateWindow("SDL2WhatIsThat",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,1024,780,SDL_WINDOW_SHOWN);
+
+        //On vérifie si la fenetre a ete cree correctement.
+        if (pWindow == NULL)
+        {
+            // Si c'est le cas, la fenetre n'a pas ete creee.
+            printf("La fenetre n'a pas pu etre creee: %s\n", SDL_GetError());
+            return 1;
+        }
+
+        SDL_Delay(4000);  //On met l'execution en pause pendant 4 secondes pour pouvoir voir la fenetre.
+
+        //On ferme la fenetre.
+        SDL_DestroyWindow(pWindow);
+        printf("Fenetre fermee.\n");
     }
     SDL_Quit();//Fermeture de la SDL.
     printf("Fin de l'utilisation de la SDL.\n");
