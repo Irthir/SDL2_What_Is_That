@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "SDL2/SDL.h" //Inclusion de la bibliothèque SDL
 
+void LesPoints();
+
 int main(int argc, char *argv[])//modification du main pour y ajouter un compteur d'arguments et un tableau de chaines.
 {
     //Initialisation de trois pointeurs sur référence NULL pour pouvoir les manipuler par la suite.
@@ -27,12 +29,20 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         }
 
         LesPoints();
+
         printf("Question 10) Quant aux SDL_Point et SDL_Rect.\n");
         SDL_Point monPoint={30,40};
         SDL_Rect monRectangle={0,0,300,400};
         printf("Mon point a comme coordonnees x=%d, y=%d.\n",monPoint.x,monPoint.y);
         printf("Mon Rectangle a comme point de depart : (%d,%d) et comme dimensions : Largeur=%d Hauteur=%d.\n",monRectangle.x,monRectangle.y,monRectangle.h,monRectangle.w);
         LesPoints();
+
+        printf("Question 12) Donnez le code permettant d'afficher un fond rouge dans le rendu.\n");
+
+        pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED); //On crée le rendu.
+        SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255); //On change la couleur du rendu, ici on met du rouge.
+        SDL_RenderClear(pRenderer); //On actualise le rendu.
+        SDL_RenderPresent(pRenderer); //On affiche le rendu.
 
         SDL_Delay(4000);  //On met l'execution en pause pendant 4 secondes pour pouvoir voir la fenetre.
 
