@@ -13,6 +13,7 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
     //Initialisation de trois pointeurs sur référence NULL pour pouvoir les manipuler par la suite.
     SDL_Window *pWindow=NULL; //Pointeur typedef SDL_Window possède la référence d'une window(win32)
     SDL_Renderer *pRenderer=NULL; //Pointeur typedef SDL_Renderer possède la référence du rendu encapsulé dans window.
+    SDL_Surface *pSurface=NULL; //Pointeur typedef SDL_Surface.
     SDL_Texture *pTexture=NULL; //Pointeur typedef SDL_Texture possède la référence de l'objet image, matériel ou texture qui sera blitté dans le rendu.
     //La SDL manipule des types.
 
@@ -45,7 +46,7 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED); //On crée le rendu.
         SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255); //On change la couleur du rendu, ici on met du rouge.
         SDL_RenderClear(pRenderer); //On efface ce qu'on avait avant le rendu.
-        SDL_RenderPresent(pRenderer); //On affiche le rendu     .
+        SDL_RenderPresent(pRenderer); SDL_RenderPresent(pRenderer); //On affiche le rendu     .
         LesPoints();
         SDL_Delay(2000);
 
@@ -62,9 +63,23 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         LesPoints();
         SDL_Delay(4000);  //On met l'execution en pause pendant 4 secondes pour pouvoir voir la fenetre.
 
+        printf("Question 19) Dessiner dans une surface : Donnez le code de la fonction SDL_FillRect.");
+        SDL_RenderClear(pRenderer);
+        pSurface = SDL_CreateRGBSurface(0,500,500,32,0xff000000,0x00ff0000,0x0000ff00,0x000000ff); //On crée notre surface.
+        SDL_FillRect(pSurface,NULL,SDL_MapRGB(pSurface->format,0,255,0)); //On remplit la surface d'un rectangle vert.
+        pTexture = SDL_CreateTextureFromSurface(pRenderer,pSurface); //On met la surface dans une texture pour l'afficher.
+        SDL_RenderCopy(pRenderer,pTexture,NULL,NULL); //On blit la texture sur la totalité du rendu.
+        SDL_RenderPresent(pRenderer);
+        LesPoints();
+        SDL_Delay(4000);
+
+        //On finit la texture
+        SDL_DestroyTexture(pTexture);
+        //On libère la surface.
+        SDL_FreeSurface(pSurface);
         //On finit le rendu.
         SDL_DestroyRenderer(pRenderer);
-        printf("Rendu finit.\n");
+        printf("Rendu fini.\n");
         //On ferme la fenetre.
         SDL_DestroyWindow(pWindow);
         printf("Fenetre fermee.\n");
