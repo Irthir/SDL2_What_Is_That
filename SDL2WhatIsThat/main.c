@@ -3,6 +3,10 @@
 #include "SDL2/SDL.h" //Inclusion de la bibliothèque SDL
 
 void LesPoints();
+void AfficherUnRectangle(SDL_Renderer* renderer,SDL_Rect* rect);
+void RemplirUnRectangle (SDL_Renderer* renderer,SDL_Rect* rect);
+void DessinerUnCercle(SDL_Renderer * pRendu, int nCentreX, int nCentreY, int nRayon);
+void DessinerUnDisque(SDL_Renderer * pRendu, int nCentreX, int nCentreY, int nRayon);
 
 int main(int argc, char *argv[])//modification du main pour y ajouter un compteur d'arguments et un tableau de chaines.
 {
@@ -32,20 +36,35 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
 
         printf("Question 10) Quant aux SDL_Point et SDL_Rect.\n");
         SDL_Point monPoint={30,40};
-        SDL_Rect monRectangle={0,0,300,400};
+        SDL_Rect monRectangle={5,5,100,200};
         printf("Mon point a comme coordonnees x=%d, y=%d.\n",monPoint.x,monPoint.y);
-        printf("Mon Rectangle a comme point de depart : (%d,%d) et comme dimensions : Largeur=%d Hauteur=%d.\n",monRectangle.x,monRectangle.y,monRectangle.h,monRectangle.w);
-        LesPoints();
+        printf("Mon Rectangle a comme point de depart : (%d,%d) et comme dimensions : Hauteur=%d Largeur=%d.\n",monRectangle.x,monRectangle.y,monRectangle.h,monRectangle.w);
+
 
         printf("Question 12) Donnez le code permettant d'afficher un fond rouge dans le rendu.\n");
-
         pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED); //On crée le rendu.
         SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255); //On change la couleur du rendu, ici on met du rouge.
-        SDL_RenderClear(pRenderer); //On actualise le rendu.
-        SDL_RenderPresent(pRenderer); //On affiche le rendu.
+        SDL_RenderClear(pRenderer); //On efface ce qu'on avait avant le rendu.
+        SDL_RenderPresent(pRenderer); //On affiche le rendu     .
+        LesPoints();
+        SDL_Delay(2000);
 
+        printf("Question 13) Dessiner dans le rendu : donnez le code des fonctions permettant de dessiner dans le rendu les formes suivantes : carre vide, carre plein, cercle vide, cercle plein.\n");
+        SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255); //On change la couleur du rendu, ici on met du rouge.
+        SDL_Rect tonRectangle={5,5,150,150};
+        AfficherUnRectangle(pRenderer,&tonRectangle); //Affichage d'un carré vide.
+        tonRectangle.x=300;
+        AfficherUnRectangle(pRenderer,&tonRectangle); //Affichage d'un carré plein.
+        RemplirUnRectangle (pRenderer,&tonRectangle);
+        DessinerUnCercle(pRenderer, 105, 300, 100);//Affichage du cercle.
+        DessinerUnDisque(pRenderer, 405, 300, 100);//Affichage d'un disque
+        SDL_RenderPresent(pRenderer); //On affiche le rendu.
+        LesPoints();
         SDL_Delay(4000);  //On met l'execution en pause pendant 4 secondes pour pouvoir voir la fenetre.
 
+        //On finit le rendu.
+        SDL_DestroyRenderer(pRenderer);
+        printf("Rendu finit.\n");
         //On ferme la fenetre.
         SDL_DestroyWindow(pWindow);
         printf("Fenetre fermee.\n");
@@ -67,4 +86,94 @@ void LesPoints()
         printf("*");
     }
     printf("\n");
+}
+
+void AfficherUnRectangle(SDL_Renderer* renderer,SDL_Rect* rect)
+//BUT : Afficher un rectangle.
+//ENTREE : Un rectangle SDL, le rendu pour l'affichage.
+//SORTIE : L'affichage du rectangle dans la fenêtre.
+{
+    if(SDL_RenderDrawRect(renderer,rect)<0)
+    {
+        printf("Erreur lors de la creation d'un rectangle: %s",SDL_GetError());
+        return EXIT_FAILURE;
+    }
+}
+
+void RemplirUnRectangle (SDL_Renderer* renderer,SDL_Rect* rect)
+//BUT : Remplir un rectangle.
+//ENTREE : Un rectangle SDL, le rendu pour l'affichage.
+//SORTIE : Le remplissage d'un rectangle dans la fenêtre.
+{
+    if(SDL_RenderFillRect(renderer,rect)<0)
+    {
+        printf("Erreur lors du remplissage d'un rectangle : %s",SDL_GetError());
+        return EXIT_FAILURE;
+    }
+}
+
+void DessinerUnCercle(SDL_Renderer * pRendu, int nCentreX, int nCentreY, int nRayon)
+//BUT : Dessiner un cercle.
+//ENTREE : Le rendu, les coordonnées du centre du cercle et le rayon.
+//SORTIE : Le cercle affiché à l'écran.
+{
+    const int nDiametre = (nRayon * 2);
+    int nX = (nRayon - 1);
+    int nY = 0;
+    int tX = 1;
+    int tY = 1;
+    int nErreur = (tX - nDiametre);
+
+    while (nX >= nY)
+    {
+        SDL_RenderDrawPoint(pRendu, nCentreX + nX, nCentreY - nY);
+        SDL_RenderDrawPoint(pRendu, nCentreX + nX, nCentreY + nY);
+        SDL_RenderDrawPoint(pRendu, nCentreX - nX, nCentreY - nY);
+        SDL_RenderDrawPoint(pRendu, nCentreX - nX, nCentreY + nY);
+        SDL_RenderDrawPoint(pRendu, nCentreX + nY, nCentreY - nX);
+        SDL_RenderDrawPoint(pRendu, nCentreX + nY, nCentreY + nX);
+        SDL_RenderDrawPoint(pRendu, nCentreX - nY, nCentreY - nX);
+        SDL_RenderDrawPoint(pRendu, nCentreX - nY, nCentreY + nX);
+
+        if (nErreur <= 0)
+        {
+            nY++;
+            nErreur += tY;
+            tY += 2;
+        }
+        if (nErreur > 0)
+        {
+            nX--;
+            tX += 2;
+            nErreur += (tX - nDiametre);
+        }
+    }
+}
+
+
+void DessinerUnDisque(SDL_Renderer * pRendu, int nCentreX, int nCentreY, int nRayon)
+//BUT : Dessiner un disque.
+//ENTREE : Le rendu, les coordonnées du centre du disque et le rayon.
+//SORTIE : Le disque affiché à l'écran.
+{
+    int nDiametre = 3 - (2 * nRayon);
+    int nX = 0;
+    int nY = nRayon;
+
+    while (nY >= nX)
+    {
+        SDL_RenderDrawLine(pRendu, nCentreX - nX, nCentreY - nY, nCentreX - nX +  2 * nX + 1, nCentreY - nY);
+        SDL_RenderDrawLine(pRendu, nCentreX - nX, nCentreY + nY, nCentreX - nX +  2 * nX + 1, nCentreY + nY);
+        SDL_RenderDrawLine(pRendu, nCentreX - nY, nCentreY - nX, nCentreX - nY +  2 * nY + 1, nCentreY - nX);
+        SDL_RenderDrawLine(pRendu, nCentreX - nY, nCentreY + nX, nCentreX - nY +  2 * nY + 1, nCentreY + nX);
+
+        if (nDiametre < 0)
+            nDiametre = nDiametre + (4 * nX) + 6;
+        else
+        {
+            nDiametre = nDiametre + 4 * (nX - nY) + 10;
+            nY--;
+        }
+        nX++;
+    }
 }
