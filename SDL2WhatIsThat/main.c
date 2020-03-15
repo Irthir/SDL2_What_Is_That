@@ -14,6 +14,7 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
     SDL_Window *pWindow=NULL; //Pointeur typedef SDL_Window possède la référence d'une window(win32)
     SDL_Renderer *pRenderer=NULL; //Pointeur typedef SDL_Renderer possède la référence du rendu encapsulé dans window.
     SDL_Surface *pSurface=NULL; //Pointeur typedef SDL_Surface.
+    SDL_Surface *pWindowSurface=NULL;
     SDL_Texture *pTexture=NULL; //Pointeur typedef SDL_Texture possède la référence de l'objet image, matériel ou texture qui sera blitté dans le rendu.
     //La SDL manipule des types.
 
@@ -67,9 +68,30 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         SDL_RenderClear(pRenderer);
         pSurface = SDL_CreateRGBSurface(0,500,500,32,0xff000000,0x00ff0000,0x0000ff00,0x000000ff); //On crée notre surface.
         SDL_FillRect(pSurface,NULL,SDL_MapRGB(pSurface->format,0,255,0)); //On remplit la surface d'un rectangle vert.
+        //Il s'agit là du test de l'affichage de la surface après la question 19.
         pTexture = SDL_CreateTextureFromSurface(pRenderer,pSurface); //On met la surface dans une texture pour l'afficher.
         SDL_RenderCopy(pRenderer,pTexture,NULL,NULL); //On blit la texture sur la totalité du rendu.
+        SDL_BlitSurface(pSurface,NULL,pRenderer,NULL);
         SDL_RenderPresent(pRenderer);
+        LesPoints();
+        SDL_Delay(4000);
+
+        printf("Question 20) SDL_BlitSurface(..) : donnez le code pour tester cette méthode. ");
+        //Avant de remettre notre surface verte sur le rendu, on va réinitialiser le rendu.
+        SDL_RenderClear(pRenderer);
+        SDL_RenderPresent(pRenderer); //Et l'afficher 2 secondes pour que ce soit visible.
+        SDL_Delay(2000);
+        pWindowSurface=SDL_GetWindowSurface(pWindow);
+        if(SDL_BlitSurface(pSurface,NULL,pWindowSurface,NULL)<0)//On test la fonction Blitsurface.
+        {
+            printf("Erreur lors de l'utilisation de la fonction BlitSurface: %s",SDL_GetError());
+            return EXIT_FAILURE;
+        }
+        if (SDL_UpdateWindowSurface(pWindow)<0)//Et on actualise la fenêtre pour afficher notre merveilleux vert !
+        {
+            printf("Erreur lors de l'utilisation de la fonction UpdateWindowSurface: %s",SDL_GetError());
+            return EXIT_FAILURE;
+        }
         LesPoints();
         SDL_Delay(4000);
 
