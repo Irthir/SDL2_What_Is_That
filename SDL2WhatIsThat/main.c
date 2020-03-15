@@ -33,7 +33,6 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
             printf("La fenetre n'a pas pu etre creee: %s\n", SDL_GetError());
             return 1;
         }
-
         LesPoints();
 
         printf("Question 10) Quant aux SDL_Point et SDL_Rect.\n");
@@ -41,7 +40,7 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         SDL_Rect monRectangle={5,5,100,200};
         printf("Mon point a comme coordonnees x=%d, y=%d.\n",monPoint.x,monPoint.y);
         printf("Mon Rectangle a comme point de depart : (%d,%d) et comme dimensions : Hauteur=%d Largeur=%d.\n",monRectangle.x,monRectangle.y,monRectangle.h,monRectangle.w);
-
+        LesPoints();
 
         printf("Question 12) Donnez le code permettant d'afficher un fond rouge dans le rendu.\n");
         pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED); //On crée le rendu.
@@ -121,6 +120,12 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         SDL_RenderClear(pRenderer);
         SDL_RenderCopy(pRenderer,pTexture,&monRectangle,&monRectangle);
         SDL_RenderPresent(pRenderer);
+        LesPoints();
+        SDL_Delay(4000);
+
+        printf("Question 25) Les Images : La SDL2 et SDL_LoadBMP.\n");
+        pSurface=SDL_LoadBMP("Assets/BMP/Cirno.bmp");
+        SDL_SetWindowIcon(pWindow,pSurface);
         LesPoints();
         SDL_Delay(4000);
 
