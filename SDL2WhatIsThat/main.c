@@ -14,7 +14,7 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
     SDL_Window *pWindow=NULL; //Pointeur typedef SDL_Window possède la référence d'une window(win32)
     SDL_Renderer *pRenderer=NULL; //Pointeur typedef SDL_Renderer possède la référence du rendu encapsulé dans window.
     SDL_Surface *pSurface=NULL; //Pointeur typedef SDL_Surface.
-    SDL_Surface *pWindowSurface=NULL;
+    SDL_Surface *pWindowSurface=NULL; //Pointeur typedef SDL_Surface que l'on va utiliser pour la fenêtre.
     SDL_Texture *pTexture=NULL; //Pointeur typedef SDL_Texture possède la référence de l'objet image, matériel ou texture qui sera blitté dans le rendu.
     //La SDL manipule des types.
 
@@ -71,7 +71,6 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         //Il s'agit là du test de l'affichage de la surface après la question 19.
         pTexture = SDL_CreateTextureFromSurface(pRenderer,pSurface); //On met la surface dans une texture pour l'afficher.
         SDL_RenderCopy(pRenderer,pTexture,NULL,NULL); //On blit la texture sur la totalité du rendu.
-        SDL_BlitSurface(pSurface,NULL,pRenderer,NULL);
         SDL_RenderPresent(pRenderer);
         LesPoints();
         SDL_Delay(4000);
@@ -104,12 +103,26 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         LesPoints();
         SDL_Delay(2000);
 
-        printf("Question 23) SDL_RenderCopy : A quoi sert cette méthode, donnez le code pour tester cette methode.\n");
+        printf("Question 23) SDL_RenderCopy : A quoi sert cette methode, donnez le code pour tester cette methode.\n");
         SDL_RenderCopy(pRenderer,pTexture,NULL,NULL);
         SDL_RenderPresent(pRenderer);
+        SDL_SetRenderTarget(pRenderer, NULL); //On met fin au rendertarget.
         LesPoints();
         SDL_Delay(4000);
 
+        printf("Question 24) SQL_QueryTexture : A quoi sert cette methode, donnez le code pour tester cette methode.\n");
+        int nLargeur=0;
+        int nHauteur=0;
+        SDL_QueryTexture(pTexture,NULL,NULL,&nLargeur,&nHauteur);
+        monRectangle.x=0;
+        monRectangle.y=0;
+        monRectangle.w=nLargeur;
+        monRectangle.h=nLargeur;
+        SDL_RenderClear(pRenderer);
+        SDL_RenderCopy(pRenderer,pTexture,&monRectangle,&monRectangle);
+        SDL_RenderPresent(pRenderer);
+        LesPoints();
+        SDL_Delay(4000);
 
         //On finit la texture
         SDL_DestroyTexture(pTexture);
