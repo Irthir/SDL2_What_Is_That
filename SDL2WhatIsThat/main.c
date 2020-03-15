@@ -124,8 +124,20 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         SDL_Delay(4000);
 
         printf("Question 25) Les Images : La SDL2 et SDL_LoadBMP.\n");
-        pSurface=SDL_LoadBMP("Assets/BMP/Cirno.bmp");
+        pSurface=SDL_LoadBMP("Assets/BMP/CirnoIcone.bmp");
         SDL_SetWindowIcon(pWindow,pSurface);
+        LesPoints();
+        SDL_Delay(4000);
+
+        printf("Question 26) et 27) Creer une texture a partir d'une image, puis afficher l'image.\n");
+        SDL_RenderClear(pRenderer);
+        pSurface=SDL_LoadBMP("Assets/BMP/Cirno.bmp");
+        pTexture=SDL_CreateTextureFromSurface(pRenderer,pSurface);
+        SDL_QueryTexture(pTexture,NULL,NULL,&nLargeur,&nHauteur);
+        monRectangle.w=nLargeur;
+        monRectangle.h=nHauteur;
+        SDL_RenderCopy(pRenderer,pTexture,&monRectangle,&monRectangle);
+        SDL_RenderPresent(pRenderer);
         LesPoints();
         SDL_Delay(4000);
 
