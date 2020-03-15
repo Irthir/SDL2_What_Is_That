@@ -64,7 +64,7 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         LesPoints();
         SDL_Delay(4000);  //On met l'execution en pause pendant 4 secondes pour pouvoir voir la fenetre.
 
-        printf("Question 19) Dessiner dans une surface : Donnez le code de la fonction SDL_FillRect.");
+        printf("Question 19) Dessiner dans une surface : Donnez le code de la fonction SDL_FillRect.\n");
         SDL_RenderClear(pRenderer);
         pSurface = SDL_CreateRGBSurface(0,500,500,32,0xff000000,0x00ff0000,0x0000ff00,0x000000ff); //On crée notre surface.
         SDL_FillRect(pSurface,NULL,SDL_MapRGB(pSurface->format,0,255,0)); //On remplit la surface d'un rectangle vert.
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         LesPoints();
         SDL_Delay(4000);
 
-        printf("Question 20) SDL_BlitSurface(..) : donnez le code pour tester cette méthode. ");
+        printf("Question 20) SDL_BlitSurface(..) : donnez le code pour tester cette méthode.\n");
         //Avant de remettre notre surface verte sur le rendu, on va réinitialiser le rendu.
         SDL_RenderClear(pRenderer);
         SDL_RenderPresent(pRenderer); //Et l'afficher 2 secondes pour que ce soit visible.
@@ -97,11 +97,19 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
 
         SDL_RenderClear(pRenderer);
         SDL_RenderPresent(pRenderer);
-        printf("Question 22) Dessinez dans une texture : SDL_RenderTarget, donnez le code pour tester cette methode.");
+        printf("Question 22) Dessinez dans une texture : SDL_RenderTarget, donnez le code pour tester cette methode.\n");
         SDL_SetRenderTarget(pRenderer, pTexture); //On met la texture en cible des fonctions de dessins du rendu.
         DessinerUnDisque(pRenderer,155,155,150);
         SDL_RenderPresent(pRenderer); //Et l'afficher 2 secondes pour que ce soit visible.
+        LesPoints();
         SDL_Delay(2000);
+
+        printf("Question 23) SDL_RenderCopy : A quoi sert cette méthode, donnez le code pour tester cette methode.\n");
+        SDL_RenderCopy(pRenderer,pTexture,NULL,NULL);
+        SDL_RenderPresent(pRenderer);
+        LesPoints();
+        SDL_Delay(4000);
+
 
         //On finit la texture
         SDL_DestroyTexture(pTexture);
