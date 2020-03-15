@@ -141,6 +141,7 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         LesPoints();
         SDL_Delay(4000);
 
+        printf("Question 28) Liberer les instances de la SDL2.\n");
         //On finit la texture
         SDL_DestroyTexture(pTexture);
         printf("Texture finie.\n");
@@ -154,9 +155,12 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         //On ferme la fenetre.
         SDL_DestroyWindow(pWindow);
         printf("Fenetre fermee.\n");
+        SDL_Delay(2000);
     }
     SDL_Quit();//Fermeture de la SDL.
     printf("Fin de l'utilisation de la SDL.\n");
+
+
 
     printf("Fin du programme.\n");
     return 0;
