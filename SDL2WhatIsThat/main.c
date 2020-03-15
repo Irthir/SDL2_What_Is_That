@@ -95,10 +95,21 @@ int main(int argc, char *argv[])//modification du main pour y ajouter un compteu
         LesPoints();
         SDL_Delay(4000);
 
+        SDL_RenderClear(pRenderer);
+        SDL_RenderPresent(pRenderer);
+        printf("Question 22) Dessinez dans une texture : SDL_RenderTarget, donnez le code pour tester cette methode.");
+        SDL_SetRenderTarget(pRenderer, pTexture); //On met la texture en cible des fonctions de dessins du rendu.
+        DessinerUnDisque(pRenderer,155,155,150);
+        SDL_RenderPresent(pRenderer); //Et l'afficher 2 secondes pour que ce soit visible.
+        SDL_Delay(2000);
+
         //On finit la texture
         SDL_DestroyTexture(pTexture);
-        //On libère la surface.
+        printf("Texture finie.\n");
+        //On libère les surfaces.
         SDL_FreeSurface(pSurface);
+        SDL_FreeSurface(pWindowSurface);
+        printf("Surfaces liberees.\n");
         //On finit le rendu.
         SDL_DestroyRenderer(pRenderer);
         printf("Rendu fini.\n");
