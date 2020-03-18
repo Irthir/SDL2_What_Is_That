@@ -19,6 +19,8 @@
 					<Add option="-lmingw32" />
 					<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2main.a" />
 					<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2.dll.a" />
+					<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2_image.a" />
+					<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2_image.dll.a" />
 					<Add directory="../SDL2-2.0.10/i686-w64-mingw32/lib" />
 				</Linker>
 			</Target>
@@ -36,6 +38,8 @@
 					<Add option="-lmingw32" />
 					<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2main.a" />
 					<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2.dll.a" />
+					<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2_image.a" />
+					<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2_image.dll.a" />
 					<Add directory="../SDL2-2.0.10/i686-w64-mingw32/lib" />
 				</Linker>
 			</Target>
@@ -48,6 +52,8 @@
 			<Add option="-lmingw32" />
 			<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2main.a" />
 			<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2.dll.a" />
+			<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2_image.a" />
+			<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2_image.dll.a" />
 			<Add directory="../SDL2-2.0.10/i686-w64-mingw32/lib" />
 		</Linker>
 		<Unit filename="main.c">
