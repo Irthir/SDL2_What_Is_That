@@ -60,6 +60,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="main.h" />
+		<Unit filename="modele.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="modele.h" />
+		<Unit filename="vue.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="vue.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

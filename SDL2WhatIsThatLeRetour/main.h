@@ -2,9 +2,8 @@
 #define MAIN_H_INCLUDED
 #pragma once
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
+#include "modele.h"
+
+extern void Question3(sdl_manager* SDLmanager, char* cImage);
 
 #endif
