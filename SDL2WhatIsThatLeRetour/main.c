@@ -19,6 +19,33 @@ int main(int argc, char *argv[])
         Question5(SDLmanager,"Assets/PNG/helicoptere.png");
         SDL_Delay(500);
 
+        //La map tirée de Tiled.
+        int tMap[]=
+        {
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,
+            75,75,66,67,75,75,75,75,75,75,75,75,75,75,75,75,
+            75,75,73,74,75,75,75,75,75,75,75,75,75,75,75,75,
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,
+            75,75,75,75,57,58,64,65,75,75,75,75,75,75,75,75,
+            75,75,75,75,25,26,33,34,22,75,75,75,75,75,75,75,
+            75,75,75,75,75,75,30,75,29,75,75,75,75,75,75,75,
+            75,75,75,75,75,75,30,75,29,75,75,75,75,75,75,75,
+            75,75,75,75,75,75,30,75,29,75,75,75,75,75,75,75,
+            75,75,75,75,75,75,30,75,29,75,75,75,75,75,75,75,
+            75,75,75,24,75,75,30,75,29,75,75,75,75,75,75,75,
+            75,75,75,31,75,75,30,75,29,75,75,75,75,75,75,75,
+            75,75,75,38,75,75,37,75,36,75,75,46,75,50,51,49,
+            1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+        };
+        //NOTE La tileset est divisée sur 11 étages de 7 tuiles qui font 16x16 pixels
+        //La 75ème tuile est donc à la onzième ligne et c'est la cinquième tuile en partant de la gauche.
+        //Il n'y a pas de marge ni d'espace dans ce tileset.
+
+        Question8(SDLmanager,"Assets/PNG/nature-paltformer-tileset-16x16.png",tMap);
+        SDL_Delay(8000);
+
         LibererManager(SDLmanager);
     }
     SDL_Quit();//Fermeture de la SDL.
@@ -126,7 +153,7 @@ void Question5(sdl_manager* SDLmanager, char* cImage)
                             destRect.y=Evenement.motion.y-div(destRect.h,2).quot;
                             break;
                         case SDL_MOUSEBUTTONDOWN :
-                            printf("Clique de souris repere, fin de l'animation.");
+                            printf("Clique de souris repere, fin de l'animation.\n");
                             nFonctionnement=0;
                             break;
                     }
@@ -148,5 +175,66 @@ void Question5(sdl_manager* SDLmanager, char* cImage)
     {
     	//CopierTextureSurRendu(SDLmanager,NULL,NULL); //Si le rendu n'est pas assez grand, on applique l'image comme on peut dedans.
         printf("L'image est trop grande pour le rendue.\n");
+    }
+}
+
+
+void Question8(sdl_manager* SDLmanager, char* cImage, int tMap[])
+//BUT : Charger un tilemap et à partir d'un tableau map afficher la map à l'écran.
+//ENTREE : Le manager, le chemin du tilemap et le tableau pour l'affichage.
+//SORTIE : La carte affichée à l'écran.
+{
+    const int TAILLETUILE_H=16; //Nos tuiles font 16 pixels de haut.
+    const int TAILLETUILE_L=16; //Nos tuiles font 16 pixels de large.
+    const int NBTUILE_H=16; //Nous avons 16 tuiles en hauteur.
+    const int NBTUILE_L=16; //Nous avons 16 tuiles en largeur.
+    const int NBTUILELIGNE=7; //notre tilemap possède 7 tuiles par ligne.
+
+    printf("Notre Tilemap est : \n");
+    for (int nI=0; nI<16*16; nI++) //Affichage de notre tilemap.
+    {
+            printf("%2d,",tMap[nI]);
+            if ((nI+1)%16==0)
+                printf("\n");
+    }
+    AppliquerImageSurface(SDLmanager,cImage); //On commence par charger l'image dans la surface grâce à la fonction IMG_Load de la SDL_Image.
+
+    CreationTexture(SDLmanager); //On crée ensuite une texture de cette surface.
+
+    NettoyerRendu(SDLmanager); //On nettoie le rendu.
+
+    SDL_Rect sourceRect={0,0,0,0}; //On crée le rectangle source
+    SDL_QueryTexture(SDLmanager->pTexture,NULL,NULL,&sourceRect.w,&sourceRect.h); //A partir des informations de la texture.
+
+    CopierTextureSurRendu(SDLmanager,&sourceRect,&sourceRect); //Si le rendu est assez grand, on lui met l'image au centre.
+    AfficherRendu(SDLmanager);
+    SDL_Delay(4000);
+
+    //On a affiché notre tilemap, le tableau et l'image, affichons à présent le niveau.
+    const int ZOOM=3;
+    SDL_SetWindowSize(SDLmanager->pWindow,TAILLETUILE_H*NBTUILE_H*ZOOM,TAILLETUILE_L*NBTUILE_L*ZOOM); //On va afficher dans la fenêtre un niveau d'une taille de 16x16 carrés 16x16 pixels.
+
+    if (SDL_SetRenderDrawColor(SDLmanager->pRenderer,0,191,255,255)<0) //On change le fond en bleu clair
+	{
+		printf("Erreur dans la modification de la couleur du rendu : %s\n", SDL_GetError());
+        return EXIT_FAILURE;
+	}
+    NettoyerRendu(SDLmanager); //On nettoie le rendu.
+    sourceRect.h=TAILLETUILE_H; //On donne à notre rectangle source la taille d'une tuile.
+    sourceRect.w=TAILLETUILE_L;
+    SDL_Rect destRect={0,0,TAILLETUILE_H*ZOOM,TAILLETUILE_L*ZOOM}; //On initialise notre rectangle de destination aux coordonnées 0,0 et à la taille 32,32 pour agrandir les tuiles affichées.
+
+    for(int nI=0;nI<NBTUILE_H*NBTUILE_L;nI++) //Notre niveau fait 16 par 16 tuiles de 16 par 16 pixels.
+    {
+        sourceRect.x=(div(tMap[nI],NBTUILELIGNE).rem-1)*TAILLETUILE_L; //notre tilemap fait une largeur de 7 tuiles.
+        sourceRect.y=(div(tMap[nI],NBTUILELIGNE).quot)*TAILLETUILE_H;
+
+        destRect.x=(nI%NBTUILE_L)*TAILLETUILE_L*ZOOM;
+        destRect.y=div(nI,NBTUILE_H).quot*TAILLETUILE_H*ZOOM;
+
+        printf("Rectangle source Num :%d X=%d Y=%d.\n",nI,sourceRect.x,sourceRect.y);
+        printf("Rectangle destination Num :%d X=%d Y=%d.\n",nI,destRect.x,destRect.y);
+        CopierTextureSurRendu(SDLmanager,&sourceRect,&destRect);
+        AfficherRendu(SDLmanager);
     }
 }
