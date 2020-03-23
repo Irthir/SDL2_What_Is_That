@@ -10,5 +10,6 @@ extern void AfficherRendu(sdl_manager *manager);
 extern void CopierTextureSurRendu(sdl_manager *manager, const SDL_Rect* srcrect, const SDL_Rect* dstrect);
 extern void AfficherIconeFenetre(sdl_manager *manager);
 extern void AppliquerImageBMPSurface(sdl_manager *manager, const char* sChemin);
+extern void AppliquerImageSurface(sdl_manager *manager, const char* sChemin);
 
 #endif

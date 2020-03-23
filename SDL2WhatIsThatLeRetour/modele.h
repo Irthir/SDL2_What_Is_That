@@ -15,7 +15,7 @@ typedef struct sdl_manager
 	SDL_Surface *pSurface ;
 }sdl_manager;
 
-extern void SDL_ManagerInit(sdl_manager* manager);
+extern sdl_manager* SDL_ManagerInit();
 extern void CreationFenetre(sdl_manager *manager,const int nHauteur,const int nLargeur,const char* sTitre);
 extern void CreationRendu(sdl_manager *manager);
 extern void CreationSurface(sdl_manager *manager,const int nLargeur,const int nHauteur);

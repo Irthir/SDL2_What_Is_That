@@ -3,7 +3,9 @@
 #pragma once
 
 #include "modele.h"
+#include "vue.h"
 
 extern void Question3(sdl_manager* SDLmanager, char* cImage);
+extern void Question5(sdl_manager* SDLmanager, char* cImage);
 
 #endif

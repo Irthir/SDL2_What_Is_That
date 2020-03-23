@@ -1,4 +1,6 @@
 # SDL2_What_Is_That
 Exercice SDL2 What is That ?
 
-Début de l'exercice le 10/02/2020 à 15h00
+Source :
+
+Image Hélicoptère : http://paulmakegames.blogspot.com/2017/04/attack-helicopter-animated-sprite.html
