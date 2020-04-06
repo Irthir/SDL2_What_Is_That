@@ -1,4 +1,4 @@
-#include "modele.h"
+#include "modelemanager.h"
 
 sdl_manager* SDL_ManagerInit()
 //BUT : Initialiser le SDL_Manager et ses instances.
@@ -6,10 +6,10 @@ sdl_manager* SDL_ManagerInit()
 //SORTIE : Le SDL_Manager créé et initialisé.
 {
     sdl_manager* manager = malloc(sizeof(sdl_manager*));
-	manager->pWindow=NULL;
-    manager->pRenderer=NULL;
-    manager->pSurface=NULL;
-    manager->pTexture=NULL;
+	manager->pWindow=malloc(sizeof(SDL_Window*));
+    manager->pRenderer=malloc(sizeof(SDL_Renderer*));
+    manager->pSurface=malloc(sizeof(SDL_Surface*));
+    manager->pTexture=malloc(sizeof(SDL_Texture*));
     return manager;
 }
 

@@ -1,4 +1,7 @@
-#include "main.h"
+#include "modele.h"
+#include "vue.h"
+#include "AfficheForme.h"
+#include "cercle.h"
 
 
 int main(int argc, char *argv[])
@@ -8,7 +11,7 @@ int main(int argc, char *argv[])
     {
         printf("La SDL est initialisee !\n");
 
-	    sdl_manager *manager;
+	    sdl_manager *manager=malloc(sizeof(sdl_manager*));
 	    SDL_ManagerInit(manager);
 
         printf("Creation de la fenetre.\n");
@@ -37,6 +40,7 @@ int main(int argc, char *argv[])
         tonRectangle.x=300;
         DessinerUnRectangle(manager,&tonRectangle); //Affichage d'un carré plein.
         RemplirUnRectangle (manager,&tonRectangle);
+        //tCercle cCercle=CreatCercle(CreatPoint(105,300),100);
         DessinerUnCercle(manager, 105, 300, 100);//Affichage du cercle.
         DessinerUnDisque(manager, 405, 300, 100);//Affichage d'un disque
         AfficherRendu(manager); //On affiche le rendu.
@@ -133,7 +137,6 @@ int main(int argc, char *argv[])
         SDL_FreeSurface(pWindowSurface);
         printf("Surface liberee.\n");
         LibererManager(manager);
-        SDL_Delay(2000);
     }
     else
     {

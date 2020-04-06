@@ -19,8 +19,9 @@ extern void CreationFenetre(sdl_manager *manager,const int nHauteur,const int nL
 extern void CreationRendu(sdl_manager *manager);
 extern void CreationSurface(sdl_manager *manager,const int nLargeur,const int nHauteur);
 extern void CreationTexture(sdl_manager *manager);
+extern void LibererManager(sdl_manager* manager);
+
 extern void AssocierCibleRendu(sdl_manager *manager);
 extern void DissocierCibleRendu(sdl_manager *manager);
-extern void LibererManager(sdl_manager* manager);
 
 #endif

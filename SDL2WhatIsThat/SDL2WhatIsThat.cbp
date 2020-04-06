@@ -50,14 +50,33 @@
 			<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2.dll.a" />
 			<Add directory="../SDL2-2.0.10/i686-w64-mingw32/lib" />
 		</Linker>
+		<Unit filename="AfficheForme.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="AfficheForme.h" />
+		<Unit filename="cercle.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="cercle.h" />
+		<Unit filename="listePoint.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="listePoint.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="main.h" />
 		<Unit filename="modele.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="modele.h" />
+		<Unit filename="point.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="point.h" />
+		<Unit filename="segment.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="segment.h" />
 		<Unit filename="vue.c">
 			<Option compilerVar="CC" />
 		</Unit>

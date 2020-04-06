@@ -1,4 +1,4 @@
-#include "vue.h"
+#include "gestionimage.h"
 
 
 void CouleurRendu(sdl_manager *manager,Uint8 nR,Uint8 nG,Uint8 nB,Uint8 nA)
@@ -62,7 +62,7 @@ void AppliquerImageBMPSurface(sdl_manager *manager, const char* sChemin)
 	if (manager->pSurface==NULL)
     {
     	printf("Erreur lors de l'association de l'image a la surface : %s",SDL_GetError());
-        return EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
 }
 
@@ -71,10 +71,11 @@ void AppliquerImageSurface(sdl_manager *manager, const char* sChemin)
 //ENTREE : La surface comprise dans le manager et le chemin de l'image.
 //SORTIE : L'image appliquée à la surface.
 {
+    printf("Chemin : %s\n",sChemin);
     manager->pSurface=IMG_Load(sChemin);
     if (manager->pSurface==NULL)
     {
         printf("Erreur lors de l'association de l'image a la surface : %s",SDL_GetError());
-        return EXIT_FAILURE;
+        exit(EXIT_FAILURE);
     }
 }

@@ -1,8 +1,8 @@
-#ifndef VUE_H_INCLUDED
-#define VUE_H_INCLUDED
+#ifndef GESTIONIMAGE_H_INCLUDED
+#define GESTIONIMAGE_H_INCLUDED
 #pragma once
 
-#include "modele.h"
+#include "modelemanager.h"
 
 extern void CouleurRendu(sdl_manager *manager,Uint8 nR,Uint8 nG,Uint8 nB,Uint8 nA);
 extern void NettoyerRendu(sdl_manager *manager);

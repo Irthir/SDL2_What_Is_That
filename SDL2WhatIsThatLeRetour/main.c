@@ -1,5 +1,12 @@
-#include "main.h"
+#include "modelemanager.h"
+#include "gestionimage.h"
+#include "math.h"
 
+void Question3(sdl_manager* SDLmanager, char* cImage);
+void Question5(sdl_manager* SDLmanager, char* cImage);
+void Question8(sdl_manager* SDLmanager, char* cImage, int tMap[]);
+int** AjoutDimensionDifferent(int* tMap);
+int** FusionTab2DSelonX(int** tMap1, int** tMap2);
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +27,7 @@ int main(int argc, char *argv[])
         SDL_Delay(500);
 
         //La map tirée de Tiled.
-        int tMap[]=
+        int tMap1[]=
         {
             75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,
             75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,
@@ -39,14 +46,59 @@ int main(int argc, char *argv[])
             75,75,75,38,75,75,37,75,36,75,75,46,75,50,51,49,
             1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
         };
+        int tMap2[]=
+        {
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,
+            52,53,52,53,75,75,75,75,75,75,75,75,75,75,75,75,
+            61,61,61,61,75,75,75,75,75,75,75,75,75,75,75,75,
+            59,60,59,60,75,75,75,75,75,75,75,75,75,75,75,75,
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,
+            75,75,75,75,75,75,75,52,53,52,53,75,75,75,75,75,
+            75,75,75,75,75,75,75,59,60,59,60,75,75,75,75,75,
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,54,75,
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,61,75,
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,68,75,
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,
+            75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,75,
+            75,75,75,55,75,56,75,62,75,63,75,75,75,75,75,75,
+            75,75,75,75,75,75,75,75,75,75,75,75,48,75,47,75,
+            2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,6
+        };
         //NOTE La tileset est divisée sur 11 étages de 7 tuiles qui font 16x16 pixels
         //La 75ème tuile est donc à la onzième ligne et c'est la cinquième tuile en partant de la gauche.
         //Il n'y a pas de marge ni d'espace dans ce tileset.
 
-        Question8(SDLmanager,"Assets/PNG/nature-paltformer-tileset-16x16.png",tMap);
+        Question8(SDLmanager,"Assets/PNG/nature-paltformer-tileset-16x16.png",tMap1);
         SDL_Delay(8000);
 
+        int** tMap2D1={0};
+        int** tMap2D2={0};
+        tMap2D1=AjoutDimensionDifferent(tMap1);
+        tMap2D2=AjoutDimensionDifferent(tMap2);
+
+        int** tMapFinal={0};
+        tMapFinal=FusionTab2DSelonX(tMap2D1,tMap2D2);
+
+        for (int nJ=0;nJ<16;nJ++)
+        {
+            for (int nI=0;nI<32;nI++)
+            {
+                printf("%2d,",tMapFinal[nI][nJ]);
+            }
+            printf("\n");
+        }
+        printf("Fin\n");
+        //Ici notre map géante, est en place ! On a notre grand tableau à deux dimensions et notre tilemap !
+
+
         LibererManager(SDLmanager);
+        if (tMap2D1!=NULL)
+            free(tMap2D1);
+        if (tMap2D2!=NULL)
+            free(tMap2D2);
+        if (tMapFinal!=NULL)
+            free(tMapFinal);
     }
     SDL_Quit();//Fermeture de la SDL.
     printf("Fin de l'utilisation de la SDL.\n");
@@ -105,11 +157,8 @@ void Question5(sdl_manager* SDLmanager, char* cImage)
     printf("Question 5) Creez une image animee dans votre fenetre.\n");
 
     AppliquerImageSurface(SDLmanager,cImage); //On commence par charger l'image dans la surface grâce à la fonction IMG_Load de la SDL_Image.
-
     CreationTexture(SDLmanager); //On crée ensuite une texture de cette surface.
-
     NettoyerRendu(SDLmanager); //On nettoie le rendu.
-
     SDL_Rect sourceRect={0,0,0,0}; //On crée le rectangle source
     SDL_QueryTexture(SDLmanager->pTexture,NULL,NULL,&sourceRect.w,&sourceRect.h); //A partir des informations de la texture.
 
@@ -232,9 +281,65 @@ void Question8(sdl_manager* SDLmanager, char* cImage, int tMap[])
         destRect.x=(nI%NBTUILE_L)*TAILLETUILE_L*ZOOM;
         destRect.y=div(nI,NBTUILE_H).quot*TAILLETUILE_H*ZOOM;
 
-        printf("Rectangle source Num :%d X=%d Y=%d.\n",nI,sourceRect.x,sourceRect.y);
-        printf("Rectangle destination Num :%d X=%d Y=%d.\n",nI,destRect.x,destRect.y);
         CopierTextureSurRendu(SDLmanager,&sourceRect,&destRect);
         AfficherRendu(SDLmanager);
     }
+}
+
+int** AjoutDimensionDifferent(int* tMap)
+//BUT : Transformer un  tableau à une dimension en tableau à deux dimensions.
+//ENTREE : Un tableau à une dimension de 256 éléments.
+//SORTIE : Un tableau à deux dimensions 16*16.
+{
+    int nTailleTab=256;
+    printf("Taille du tableau d'origine : %d\n",nTailleTab);
+    double nX=sqrt(nTailleTab);
+    if (nX==(int)nX)
+    {
+        int nTaille=(int)nX;
+        int **tMapFinal=malloc(16*sizeof(int*));
+        for (int nM=0; nM<16; nM++)
+        {
+            tMapFinal[nM]=malloc(16*sizeof(int));
+        }
+        for (int nI=0; nI<nTailleTab; nI++)
+        {
+            //printf("nX=%d, nY=%d\n",div(nI,nTaille).quot,nI%nTaille);
+            //printf("Valeur a inserer : %d\n",tMap[nI]);
+            tMapFinal[div(nI,nTaille).quot][nI%nTaille]=tMap[nI];
+        }
+        return tMapFinal;
+    }
+    else
+    {
+        exit(EXIT_FAILURE);
+    }
+}
+
+int** FusionTab2DSelonX(int** tMap1, int** tMap2)
+//BUT : Fusionner deux tableaux à deux dimensions.
+//ENTREE : Deux tableaux à deux dimensions.
+//SORTIE : Un tableau cumulant les deux à la suite sur l'axe X.
+{
+    int nTailleX=16;
+    int nTailleY=16;
+
+    int** tMapFinal=malloc((nTailleY+nTailleX*2)*sizeof(int**));
+
+    for (int nX=0; nX<(nTailleX*2); nX++)
+    {
+        tMapFinal[nX]=malloc(nTailleY*sizeof(int*));
+        for (int nY=0; nY<nTailleY; nY++)
+        {
+            if (nX<16)
+            {
+                tMapFinal[nX][nY]=tMap1[nY][nX];
+            }
+            else
+            {
+                tMapFinal[nX][nY]=tMap2[nY][nX-16];
+            }
+       }
+    }
+    return tMapFinal;
 }

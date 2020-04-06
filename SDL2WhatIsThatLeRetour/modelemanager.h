@@ -1,5 +1,5 @@
-#ifndef MODELE_H_INCLUDED
-#define MODELE_H_INCLUDED
+#ifndef MODELEMANAGER_H_INCLUDED
+#define MODELEMANAGER_H_INCLUDED
 #pragma once
 
 #include <stdio.h>

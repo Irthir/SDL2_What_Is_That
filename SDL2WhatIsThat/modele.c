@@ -5,10 +5,10 @@ void SDL_ManagerInit(sdl_manager *manager)
 //ENTREE : Un SDL_Manager à initialiser.
 //SORTIE : Le SDL_Manager initialisé.
 {
-	manager->pWindow=NULL;
-    manager->pRenderer=NULL;
-    manager->pSurface=NULL;
-    manager->pTexture=NULL;
+	manager->pWindow=malloc(sizeof(SDL_Window*));
+    manager->pRenderer=malloc(sizeof(SDL_Renderer*));
+    manager->pSurface=malloc(sizeof(SDL_Surface*));
+    manager->pTexture=malloc(sizeof(SDL_Texture*));
 }
 
 void CreationFenetre(sdl_manager *manager,const int nHauteur,const int nLargeur,const char* sTitre)
@@ -96,15 +96,23 @@ void LibererManager(sdl_manager *manager)
 //SORTIE : Le manager nettoyé.
 {
 	//On finit la texture
-    SDL_DestroyTexture(manager->pTexture);
+	if (manager->pTexture!=NULL)
+        SDL_DestroyTexture(manager->pTexture);
     printf("Texture finie.\n");
     //On libère les surfaces.
-    SDL_FreeSurface(manager->pSurface);
+    if (manager->pSurface!=NULL)
+        SDL_FreeSurface(manager->pSurface);
     printf("Surface liberee.\n");
     //On finit le rendu.
-    SDL_DestroyRenderer(manager->pRenderer);
+    if (manager->pRenderer!=NULL)
+        SDL_DestroyRenderer(manager->pRenderer);
     printf("Rendu fini.\n");
     //On ferme la fenetre.
-    SDL_DestroyWindow(manager->pWindow);
+    if (manager->pWindow!=NULL)
+        SDL_DestroyWindow(manager->pWindow);
     printf("Fenetre fermee.\n");
+    //On libère le manager.
+    if(manager!=NULL)
+        free(manager);
+    printf("Manager libere.\n");
 }

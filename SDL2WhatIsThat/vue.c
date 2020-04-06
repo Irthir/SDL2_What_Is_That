@@ -152,7 +152,10 @@ void AfficherIconeFenetre(sdl_manager *manager)
 //ENTREE : La fenêtre et la surface toutes deux comprises dans le manager.
 //SORTIE : Le contenu de la surface appliqué à l'icone de la fenêtre.
 {
-	SDL_SetWindowIcon(manager->pWindow,manager->pSurface);
+    if (manager->pWindow!=NULL && manager->pSurface!=NULL)
+    {
+        SDL_SetWindowIcon(manager->pWindow,manager->pSurface);
+    }
 }
 
 void AppliquerImageBMPSurface(sdl_manager *manager, const char* sChemin)
@@ -160,6 +163,7 @@ void AppliquerImageBMPSurface(sdl_manager *manager, const char* sChemin)
 //ENTREE : La surface comprise dans le manager et le chemin de l'image BMP.
 //SORTIE : L'image BMP appliquée à la surface.
 {
+    printf("Chargement image : %s.\n",sChemin);
 	manager->pSurface=SDL_LoadBMP(sChemin);
 	if (manager->pSurface==NULL)
     {
