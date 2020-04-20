@@ -1,6 +1,7 @@
 #include "modelemanager.h"
 #include "gestionimage.h"
 #include "math.h"
+#include "jeu.h"
 
 void Question3(sdl_manager* SDLmanager, char* cImage);
 void Question5(sdl_manager* SDLmanager, char* cImage);
@@ -22,10 +23,10 @@ int main(int argc, char *argv[])
 
         CreationRendu(SDLmanager);
 
-        Question3(SDLmanager,"Assets/PNG/Mouton.png"); //Réponse à la question 3.
+        //Question3(SDLmanager,"Assets/PNG/Mouton.png"); //Réponse à la question 3.
         SDL_Delay(4000);
 
-        Question5(SDLmanager,"Assets/PNG/helicoptere.png");
+        //Question5(SDLmanager,"Assets/PNG/helicoptere.png");
         SDL_Delay(500);
 
         //La map tirée de Tiled.
@@ -93,7 +94,12 @@ int main(int argc, char *argv[])
         printf("Fin\n");
         //Ici notre map géante, est en place ! On a notre grand tableau à deux dimensions et notre tilemap !
 
-        Question10(SDLmanager,"Assets/PNG/nature-paltformer-tileset-16x16.png",tMapFinal);
+        //Question10(SDLmanager,"Assets/PNG/nature-paltformer-tileset-16x16.png",tMapFinal);
+
+        printf("Lancement du jeu, et gestion des questions 11 et +.\n");
+
+        JeuPrincipal(SDLmanager,"Assets/PNG/nature-paltformer-tileset-16x16.png",tMapFinal);
+
 
         LibererManager(SDLmanager);
         if (tMap2D1!=NULL)
@@ -352,6 +358,7 @@ void Question10(sdl_manager* SDLmanager, char* cImage, int** tMap)
             }
 
             /*Affichage*/
+            NettoyerRendu(SDLmanager);
 
             for(int nJ=0;nJ<NBTUILE_H;nJ++) //Notre niveau fait 16 par 16 tuiles de 16 par 16 pixels.
             {

@@ -114,7 +114,7 @@ void LibererManager(sdl_manager *manager)
         SDL_DestroyWindow(manager->pWindow);
     printf("Fenetre fermee.\n");
     //On libère le manager.
-    if(manager!=NULL)
-        free(manager);
+    //if(manager!=NULL)
+        //free(manager);
     printf("Manager libere.\n");
 }

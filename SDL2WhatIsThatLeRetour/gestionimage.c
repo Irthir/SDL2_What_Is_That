@@ -71,7 +71,7 @@ void AppliquerImageSurface(sdl_manager *manager, const char* sChemin)
 //ENTREE : La surface comprise dans le manager et le chemin de l'image.
 //SORTIE : L'image appliquée à la surface.
 {
-    printf("Chemin : %s\n",sChemin);
+    //printf("Chemin : %s\n",sChemin);
     manager->pSurface=IMG_Load(sChemin);
     if (manager->pSurface==NULL)
     {
