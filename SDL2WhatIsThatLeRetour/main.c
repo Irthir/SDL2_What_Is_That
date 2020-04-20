@@ -5,8 +5,10 @@
 void Question3(sdl_manager* SDLmanager, char* cImage);
 void Question5(sdl_manager* SDLmanager, char* cImage);
 void Question8(sdl_manager* SDLmanager, char* cImage, int tMap[]);
+void Question10(sdl_manager* SDLmanager, char* cImage, int** tMap);
 int** AjoutDimensionDifferent(int* tMap);
 int** FusionTab2DSelonX(int** tMap1, int** tMap2);
+
 
 int main(int argc, char *argv[])
 {
@@ -91,6 +93,7 @@ int main(int argc, char *argv[])
         printf("Fin\n");
         //Ici notre map géante, est en place ! On a notre grand tableau à deux dimensions et notre tilemap !
 
+        Question10(SDLmanager,"Assets/PNG/nature-paltformer-tileset-16x16.png",tMapFinal);
 
         LibererManager(SDLmanager);
         if (tMap2D1!=NULL)
@@ -283,6 +286,89 @@ void Question8(sdl_manager* SDLmanager, char* cImage, int tMap[])
 
         CopierTextureSurRendu(SDLmanager,&sourceRect,&destRect);
         AfficherRendu(SDLmanager);
+    }
+}
+
+void Question10(sdl_manager* SDLmanager, char* cImage, int** tMap)
+//BUT : Donnez un exemple de code gérant le scrolling dans votre map.
+//ENTREE : Le manager, la map.
+//SORTIE : La carte à l'écran qui va scrollé jusqu'au bout puis revenir.
+{
+    const int FPS=2; //On veut 1 FPS dans notre affichage.
+    printf("Question 10) Donnez un exemple de code gerant le scrolling dans votre map.\n");
+    unsigned long int nTempsActuel=0;
+    unsigned long int nTempsPrecedent=0;
+    int nDeltaTime = div(1000,FPS).quot;
+
+    const int TAILLETUILE_H=16; //Nos tuiles font 16 pixels de haut.
+    const int TAILLETUILE_L=16; //Nos tuiles font 16 pixels de large.
+    const int NBTUILE_H=16; //Nous avons 16 tuiles en hauteur.
+    const int NBTUILE_L=16; //Nous avons 16 tuiles en largeur.
+    const int NBTUILELIGNE=7; //notre tilemap possède 7 tuiles par ligne.
+    const int ZOOM=3; //On zoom par trois notre image.
+
+    /*On prépare l'image du tileset.*/
+    AppliquerImageSurface(SDLmanager,cImage); //On commence par charger l'image dans la surface grâce à la fonction IMG_Load de la SDL_Image.
+    CreationTexture(SDLmanager); //On crée ensuite une texture de cette surface.
+
+    /*On prépare les rectangles pour copier de la texture sur le rendu.*/
+    SDL_Rect sourceRect={0,0,0,0}; //On crée le rectangle source
+    sourceRect.h=TAILLETUILE_H; //On donne à notre rectangle source la taille d'une tuile.
+    sourceRect.w=TAILLETUILE_L;
+    SDL_Rect destRect={0,0,TAILLETUILE_H*ZOOM,TAILLETUILE_L*ZOOM}; //On initialise notre rectangle de destination aux coordonnées 0,0 et à la taille 32,32 pour agrandir les tuiles affichées.
+
+    /*On prépare le décalage pour l'animation.*/
+    int nYDecalage=0; //Pour l'animation.
+    const int DECALAGEMAX=16; //nY ne doit pas dépasser 16 sinon on sort de notre écran.
+
+    /*On prépare les variables de gestion de l'animation.*/
+    int nCompteFrame=0; //Un entier pour compter les frames pour gérer notre animation.
+    int nFonctionnement=1; //L'entier de gestion du fonctionnement.
+
+    while(nFonctionnement)
+    {
+        nTempsActuel = SDL_GetTicks(); //SDL_GetTicks renvoie le nombre de millisecondes depuis que la SDL a été initialisé.
+        if (nTempsActuel > nTempsPrecedent + nDeltaTime)
+        //On effectue l'affichage à chaque frame.
+        {
+            nTempsPrecedent = nTempsActuel;
+
+            /*Animation*/
+
+            if (nCompteFrame<17) //On va avancer pendant 17 frames vers la droite.
+            {
+                if (nYDecalage<DECALAGEMAX)
+                    nYDecalage++;
+            }
+            else if (nCompteFrame>=17) //On va avancer pendant 17 frames vers la gauche.
+            {
+                 if (nYDecalage>0)
+                    nYDecalage--;
+            }
+
+            if (nCompteFrame>34) //Une fois passé 34 frames on s'arrête.
+            {
+                nFonctionnement=0; //Quand on a finit l'animation on arrête.
+            }
+
+            /*Affichage*/
+
+            for(int nJ=0;nJ<NBTUILE_H;nJ++) //Notre niveau fait 16 par 16 tuiles de 16 par 16 pixels.
+            {
+                for (int nI=0+nYDecalage; nI<NBTUILE_L+nYDecalage;nI++)
+                {
+                    sourceRect.x=(div(tMap[nI][nJ],NBTUILELIGNE).rem-1)*TAILLETUILE_L; //notre tilemap fait une largeur de 7 tuiles.
+                    sourceRect.y=(div(tMap[nI][nJ],NBTUILELIGNE).quot)*TAILLETUILE_H;
+
+                    destRect.x=(nI-nYDecalage)*TAILLETUILE_L*ZOOM;
+                    destRect.y=nJ*TAILLETUILE_H*ZOOM;
+
+                    CopierTextureSurRendu(SDLmanager,&sourceRect,&destRect);
+                }
+            }
+            nCompteFrame++; //La frame est finit donc on augmente de 1.
+            AfficherRendu(SDLmanager);
+        }
     }
 }
 

@@ -56,17 +56,17 @@
 			<Add library="../SDL2-2.0.10/i686-w64-mingw32/lib/libSDL2_image.dll.a" />
 			<Add directory="../SDL2-2.0.10/i686-w64-mingw32/lib" />
 		</Linker>
+		<Unit filename="gestionimage.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="gestionimage.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="modele.c">
+		<Unit filename="modelemanager.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="modele.h" />
-		<Unit filename="vue.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="vue.h" />
+		<Unit filename="modelemanager.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
