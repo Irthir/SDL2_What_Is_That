@@ -9,10 +9,9 @@
 #include "modelemanager.h"
 #include "gestionimage.h"
 #include "controlleurjoueur.h"
+#include "affichage.h"
 
-void JeuPrincipal(sdl_manager* SDLmanager, char* cImage, int** tMap);
-void Affichage(sdl_manager* SDLmanager, int nXDecalage, int** tMap);
-void AffichagePause(sdl_manager *manager);
+extern void JeuPrincipal(sdl_manager* SDLmanager, char* cImage, int** tMap);
 
 
 #endif

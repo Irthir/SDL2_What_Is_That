@@ -6,6 +6,6 @@
 #include <stdlib.h>
 #include "SDL2/SDL.h"
 
-void inputsJoueur(const int DECALAGEMAX,SDL_Event Evenement,int *nXDecalage, int *nFonctionnement, int *nPause, int nFrame);
+extern SDL_Rect inputsJoueur(const int DECALAGEMAX,SDL_Event Evenement,int *nXDecalage, int *nFonctionnement, int *nPause, int nFrame,SDL_Rect rDestRect);
 
 #endif
